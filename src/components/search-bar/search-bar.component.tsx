@@ -7,7 +7,7 @@ import { IconContext } from "react-icons";
 
 interface SearchBarProps {
     searchQuery: string,
-    setSearchQuery: any
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>
 }
 const SearchBar: React.FC <SearchBarProps> = ({searchQuery, setSearchQuery}) => {
     return (

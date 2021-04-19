@@ -4,12 +4,12 @@ import thunk from 'redux-thunk';
 import { persistStore } from 'redux-persist'
 
 // export interface RootState {
-//   cart: {
-//     boolean
-//   }
+//   userReducer: (state: IUserReducer | undefined, action: IUserAction) => IUserReducer,
+//   cartReducer: any
 // }
 
 import rootReducer from './root-reducer';
+import { IUserAction, IUserReducer } from './user/userInterfaces';
 
 const middlewares:[any] = [thunk];
 

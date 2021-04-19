@@ -1,13 +1,15 @@
 import React, { useState, SyntheticEvent } from 'react';
-import axios from 'axios';
 import { useDispatch } from "react-redux";
 
-import { setCurrentUser } from '../../redux/user/user.actions'
+import { setCurrentUser, setNotfication } from '../../redux/user/user.actions'
 import { setCart, setCartInfo } from '../../redux/cart/cart.actions'
 
 import { SignInAndSignUpPageContainer } from "./sign-in-and-sign-up.styles";
 import signUpImage from "../../assets/drawkit-transport-scene-11.svg";
 import FormInput from "../../components/form-input/form-input.component";
+
+// API
+import { authenticate } from "../../api/axios";
 
 const SignInAndSignUpPage: React.FC = () => {
 
@@ -27,6 +29,7 @@ const SignInAndSignUpPage: React.FC = () => {
           const user = response.data.user;
           const cart = response.data.cart;
           const cartInfo = response.data.cart_info;
+          // console.log(response.data);
           dispatch(setCurrentUser(
             {
               token: response.data.auth_token,
@@ -40,29 +43,24 @@ const SignInAndSignUpPage: React.FC = () => {
           dispatch(
             setCartInfo(cartInfo)
           )
-          console.log(`Welcome back!`);
+          dispatch(
+            setNotfication({message: `Welcome back!`, type: 'info'})
+            )
         }
       }
 
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();
-        const apiUrl = 'http://localhost:3001/authenticate' 
-    
+            
         try{
     
-         const response = await axios.post(
-          apiUrl,
-            {
-              email: email.toLowerCase(),
-              password: password
-            },
-            {
-              withCredentials: true
-            }
-          )
+         const response = await authenticate(email.toLowerCase(), password);
+
          await handleLogIn(response);
         }catch(error){
-          console.log("Email or password not correct. Please try again.");
+          dispatch(
+            setNotfication({message: error.message, type: 'info'})
+            )
         }
     
       }

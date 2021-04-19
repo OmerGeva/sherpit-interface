@@ -15,10 +15,11 @@ import signUpImage from "../../assets/default-avatar.png";
 
 // Components
 import NavbarBoxMenu from "../navbar-box-menu/navbar-box-menu.component";
+import { userType } from '../../redux/user/useTypes';
 
 interface NavbarProps {
-    currentUser: boolean,
-    setCartOpen: any
+    currentUser: userType,
+    setCartOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
@@ -28,10 +29,12 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, setCartOpen}) => {
     const cartItems = useSelector((state: any) => state.cart.cartItems);
     
     useEffect(() => {
-        setNavbarItemCount(cartItems.reduce(
-            (accumalatedQuantity: any, cartItem: any) => accumalatedQuantity + cartItem.count, 0)
-        
-          )
+        if(currentUser && currentUser.user_type === 'customer'){
+            setNavbarItemCount(cartItems.reduce(
+                (accumalatedQuantity: any, cartItem: any) => accumalatedQuantity + cartItem.count, 0)
+                
+                )
+            }
     }, [cartItems]);
 
     return (
@@ -49,14 +52,19 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, setCartOpen}) => {
             {
                 currentUser ? 
                 <div className='user-options'>
-                    <div className="cart-icon-container" onClick={() => setCartOpen(true)}>
-                        <IconContext.Provider value={{ className: "navbar-cart" }}>
-                            <FiShoppingCart />
-                        </IconContext.Provider>
-                        <div className="cart-item-counter" >
-                            {navbarItemCount}
-                        </div>
-                    </div>
+                        {
+                            currentUser.user_type === 'customer' ?
+                                <div className="cart-icon-container" onClick={() => setCartOpen(true)}>
+                                    <IconContext.Provider value={{ className: "navbar-cart" }}>
+                                        <FiShoppingCart />
+                                    </IconContext.Provider>
+                                            <div className="cart-item-counter" >
+                                                {navbarItemCount}
+                                            </div>
+                                </div>
+                            :
+                                ''
+                        }
                     <img src={signUpImage} alt="avatar" onClick={() => setProfileMenuOpen(!profileMenuOpen)}/>
                 </div>
                 :

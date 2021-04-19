@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 
 import { CartSideBarContainer } from './cart-side-bar.styles'
+import { Link } from "react-router-dom";
 
 // Redux
 import { useSelector } from "react-redux";
@@ -13,13 +14,15 @@ import { IconContext } from "react-icons";
 
 // Components 
 import CartItem from "../cart-item/cart-item.component";
+import Spinner from "../spinner/spinner.component";
+
 
 // Effects
 import { useOnClickOutside } from '../../effects/use-on-click-outside'
 import { UseArrangeStoresForCart } from '../../effects/use-arrange-stores-for-cart'
 
 interface CartSideBarProps {
-    setCartOpen: any,
+    setCartOpen: React.Dispatch<React.SetStateAction<boolean>>,
     cartOpen: boolean
 }
 
@@ -27,12 +30,13 @@ const CartSideBar: React.FC <CartSideBarProps> = ({setCartOpen, cartOpen}) => {
     const ref = useRef<HTMLDivElement>(null);
     const cartItems = useSelector((state: any) => state.cart.cartItems);
     const cartInfo = useSelector((state: any) => state.cart.cartInfo);
-
     useOnClickOutside(ref, () => setCartOpen(false));
     const organizedCartItems = UseArrangeStoresForCart(cartItems);
     return (
         <CartSideBarContainer ref={ref}>
-            <div className={cartOpen ? 'side-bar-container open' : 'side-bar-container'}>
+            {
+                cartInfo ?
+                <div className={cartOpen ? 'side-bar-container open' : 'side-bar-container'}>
                 <div className="close-sidebar-button" onClick={() => setCartOpen(false)}>
                     <IconContext.Provider value={{ className: "exit-x" }}>
                         <CgMathPlus />
@@ -62,10 +66,21 @@ const CartSideBar: React.FC <CartSideBarProps> = ({setCartOpen, cartOpen}) => {
                         )
                     })
                 }
-                <div className="review-cart-button">
-                    Review Cart
-                </div>
+                <Link to='/checkout'>
+                    <div className="review-cart-button" onClick={() => setCartOpen(false)}>
+                        <p>Review Cart</p>
+                        <div className="total-price">
+                            ${
+                                cartInfo.order_total
+                            }
+                        </div>
+                    </div>
+                </Link>
             </div>
+            :
+            <Spinner />
+
+            }
         </CartSideBarContainer>
     );
 };

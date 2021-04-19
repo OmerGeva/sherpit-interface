@@ -9,9 +9,11 @@ import { store } from '../../redux/store';
 // Components
 import ProductCard from "../../components/product-card/product-card.component";
 import SearchBar from "../../components/search-bar/search-bar.component";
+import { userType } from '../../redux/user/useTypes';
+import { productType } from '../../redux/cart/cartTypes';
 
 interface StorePageProps {
-    currentUser: any
+    currentUser: userType
 }
 
 interface ParamTypes {
@@ -62,7 +64,7 @@ const StorePage: React.FC <StorePageProps> = ({currentUser}) => {
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <div className="products-container">
                 {
-                    products.map((product: ProductTypes) => 
+                    products.map((product: productType) => 
                     <ProductCard key={product.id} product={product} store={store}/>
                     )
                 }

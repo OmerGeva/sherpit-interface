@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { StoresPageContainer } from "./stores.styles";
 
-// External
-import axios from 'axios';
-
 // Components
 import StoreCard from "../../components/store-card/store-card.component";
 
+// API
+import { getStores } from "../../api/axios";
+import { userType } from '../../redux/user/useTypes';
+
 interface StoresPageProps {
-    currentUser: any
+    currentUser: userType
 }
 
 const StoresPage: React.FC <StoresPageProps> = ({currentUser}) => {
@@ -16,11 +17,9 @@ const StoresPage: React.FC <StoresPageProps> = ({currentUser}) => {
     const [stores, setStores] = useState([]);
 
     const fetchStores = async () => {
-        const apiUrl = 'http://localhost:3001/stores' 
         try{
-            const response = await axios.get(apiUrl, { headers: { Authorization: `Bearer ${currentUser.token}` }})
+            const response = await getStores(currentUser.token);
     
-            await console.log(response);
             await setStores(response.data.stores);
         }catch(error){
           console.log(error);

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const AppContainer = styled.div`
+font-family: 'Open Sans', sans-serif;
+
     .app-cover{
         position: absolute;
         top: 0;

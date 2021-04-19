@@ -1,6 +1,9 @@
+// Types
 import { cartActionTypes } from './cart.types'
+// Interfaces
+import { ICartAction } from './cartInterfaces'
 
-export const setCart = (cart: any) => ({
+export const setCart = (cart: any): ICartAction => ({
   type: cartActionTypes.SET_CART,
   payload: cart
 })

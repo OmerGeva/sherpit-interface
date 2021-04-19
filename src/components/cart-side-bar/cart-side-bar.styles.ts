@@ -20,7 +20,7 @@ export const CartSideBarContainer = styled.div`
         right: 16px;
         top: 16px;
         border-radius: 8px;
-        background-color: rgb(79,195,212);
+        background-color: #51C2D5;
         color: white;
         padding: .5rem;
         display: flex;
@@ -61,6 +61,9 @@ export const CartSideBarContainer = styled.div`
             }
         }
     }
+    a{
+        text-decoration: none;
+    }
     .review-cart-button{
         cursor: pointer;
         width: 95%;
@@ -70,10 +73,24 @@ export const CartSideBarContainer = styled.div`
         margin: 24px auto;
         height: 48px;
         border-radius: 8px;
-        background-color: rgb(79,195,212);
+        background-color: #51C2D5;
         font-weight: 600;
         font-size: 18px;
         color: white;
+        p{
+            width: 75%;
+            padding-left: 25%;
+        }
+        .total-price{
+            height: 100%;
+            padding: 0 8px;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 25%;
+            background-color: #45B1C3;
+        }
     }
 }
 .open{

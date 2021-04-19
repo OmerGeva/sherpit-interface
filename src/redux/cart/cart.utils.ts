@@ -1,4 +1,6 @@
-export const addItemToCart = (cartItems: [any], cartItemToAdd: any) => {
+import { cartItemType, productType, storeType } from "./cartTypes";
+
+export const addItemToCart = (cartItems: cartItemType[], cartItemToAdd: [productType, storeType]) => {
 
   const existingCartItem = cartItems.find(
       cartItem => cartItem.product.id === cartItemToAdd[0].id);
@@ -10,8 +12,8 @@ export const addItemToCart = (cartItems: [any], cartItemToAdd: any) => {
   }
   
 
-  export const removeItemFromCart = (cartItems: [any], cartItemToRemove:  any) => {
-    console.log(cartItemToRemove);
+  export const removeItemFromCart = (cartItems: cartItemType[], cartItemToRemove:  cartItemType) => {
+
     const existingCartItem = cartItems.find(
       cartItem => cartItem.product.id === cartItemToRemove.product.id);
 

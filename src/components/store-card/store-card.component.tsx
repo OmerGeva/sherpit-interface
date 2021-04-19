@@ -3,17 +3,9 @@ import { Link } from "react-router-dom";
 import { StoreCardContainer } from "./store-card.styles";
 
 import costoImage from "../../assets/costco.png";
+import { storeType } from '../../redux/cart/cartTypes';
 interface StoreCardProps {
-    store: {
-        id: number,
-        created_at: string,
-        name: string,
-        online: boolean,
-        type_of_brand: string,
-        updated_at: string,
-        website: string,
-        brand_image: string
-    }
+    store: storeType
 }
 const StoreCard: React.FC <StoreCardProps> = ({store}) => {
     return (
@@ -27,5 +19,6 @@ const StoreCard: React.FC <StoreCardProps> = ({store}) => {
             </Link>
         </StoreCardContainer>
     );
+
 };
 export default StoreCard;

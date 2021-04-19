@@ -11,15 +11,15 @@ import axios from 'axios';
 import { HiPlus } from 'react-icons/hi';
 import { IconContext } from "react-icons";
 
+// API
+import { addItemToCartDatabase } from "../../api/axios";
+import { productType, storeType } from '../../redux/cart/cartTypes';
+import { setNotfication } from '../../redux/user/user.actions';
+
+
 interface ProductProps {
-    product: {
-        description: string,
-        id: string,
-        product_image: string,
-        title: string,
-        price: string
-    }
-    store: any
+    product: productType
+    store: storeType
 }
 
 
@@ -31,25 +31,21 @@ const ProductCard: React.FC<ProductProps> = ({product, store}) => {
     const handleResponse = (response: any) =>  {
         if(response.status === 200){
             dispatch(addItemToCart([product, store]))
+            dispatch(
+                setNotfication({message: `Added ${product.title} to cart!`, type: 'info'})
+                )
         } else {
-            console.log('something went wrong... ')
+            dispatch(
+                setNotfication({message: `Couldn't add ${product.title} to cart, try again.`, type: 'info'})
+                )
         }
     }
 
-    const handleAddToCart = async () => {
-        const apiUrl = `http://localhost:3001/orders/${orderId}` 
-    
+    const handleAddToCart = async () => {    
         try{
-         const response = await axios.patch(
-          apiUrl,
-            {
-                orderId: orderId,
-                product: product,
-            },
-            {
-                headers: { Authorization: `Bearer ${currentUser.token}` }
-            }
-          )
+            
+         const response = await addItemToCartDatabase(currentUser.token, orderId, product, 1);
+          
          await handleResponse(response);
         }catch(error){
           console.log("Something went wrong ...");

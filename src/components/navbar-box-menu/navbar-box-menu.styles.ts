@@ -11,6 +11,9 @@ export const NavbarBoxMenuContainer = styled.div`
     position: absolute;
     right: 2vw;
     top: 10vh;
+    a{
+        text-decoration: 0;
+    }
     .sign-out{
         display: block;
         padding: 18px 8px;

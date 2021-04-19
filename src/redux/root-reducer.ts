@@ -19,6 +19,19 @@ const reducers = {
   cart: cartReducer
 }
 
-const rootReducer: any = combineReducers(reducers);
+
+export const resetApp  = () => ({
+  type: 'RESET_APP'
+})
+
+const allReducers: any = combineReducers(reducers);
+
+const rootReducer = (state:any, action:any) => {
+  if(action.type === 'RESET_APP'){
+    state = undefined;
+  }
+
+  return allReducers(state, action);
+}
 
 export default persistReducer(persistConfig, rootReducer);
