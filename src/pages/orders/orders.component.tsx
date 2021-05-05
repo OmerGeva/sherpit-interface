@@ -12,11 +12,14 @@ import OrderPreview from '../../components/order-preview/order-preview.component
 
 
 interface OrderPageProps {
-    currentUser: userType
+    currentUser: userType,
+    openBackdrop: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export type selectedOrderType = {
     order: orderType,
+    receipt_image: string,
+    sent_receipt_image: string,
     middleman: {
         info: userType,
         address: userAddressType
@@ -24,14 +27,13 @@ export type selectedOrderType = {
     order_products: cartItemType[]
 }
 
-const OrdersPage: React.FC <OrderPageProps> = ({currentUser}) => {
+const OrdersPage: React.FC <OrderPageProps> = ({currentUser, openBackdrop}) => {
     const [orders, setOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState<selectedOrderType | any >({});
-
     const fetchOrders = async () => {
         try{
             const response = await getOrders(currentUser.token);
-            console.log(response);
+            console.log(response)
             await setOrders(response.data.orders);
         }catch(error) {
             console.log(error);
@@ -46,14 +48,14 @@ const OrdersPage: React.FC <OrderPageProps> = ({currentUser}) => {
         })
         return itemCount;
     }
+    console.log(selectedOrder);
     useEffect(() => {
         fetchOrders();
     }, [currentUser])
     return (
         <OrdersPageContainer>
             <div className="all-orders">
-
-                <h1>{currentUser.user_type === 'superuser' ? 'All': 'My'} Orders</h1>
+                <h1>{currentUser.user_type === 'superuser' ? 'All ': 'My'} Orders</h1>
                 <table>
                     <thead>
                         <tr>
@@ -70,7 +72,7 @@ const OrdersPage: React.FC <OrderPageProps> = ({currentUser}) => {
                                     <td>{order.order.id}</td>
                                     <td>{sumUpItemOut(order.order_products)}</td>
                                     <td>$ {order.order.order_total}</td>
-                                    <td>{order.order.pending ? 'pending' : 'confirmed'}</td>
+                                    <td className='pending-row'><div className={order.order.pending ? "pending dot" : "dot confirmed"}></div>{order.order.pending ? 'pending' : 'confirmed'}</td>
                                 </tr>
     
                                 )
@@ -80,12 +82,10 @@ const OrdersPage: React.FC <OrderPageProps> = ({currentUser}) => {
 
             </div>
             {
-                 selectedOrder.order ?
+                 selectedOrder.order &&
                     <div className="chosen-order">
-                        <OrderPreview selectedOrder={selectedOrder}/>
+                        <OrderPreview selectedOrder={selectedOrder} openBackdrop={openBackdrop}/>
                     </div>
-                    :
-                    ''
             }
         </OrdersPageContainer>
     );

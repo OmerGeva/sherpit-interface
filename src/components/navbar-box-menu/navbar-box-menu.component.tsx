@@ -17,7 +17,6 @@ interface NavbarBoxProps {
 const NavbarBoxMenu: React.FC <NavbarBoxProps> = ({setProfileMenuOpen}) => {
     const dispatch = useDispatch();
     const ref = useRef<HTMLDivElement>(null);
-
     useOnClickOutside(ref, () => setProfileMenuOpen(false));
 
 

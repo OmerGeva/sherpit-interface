@@ -53,7 +53,6 @@ const SignInAndSignUpPage: React.FC = () => {
         event.preventDefault();
             
         try{
-    
          const response = await authenticate(email.toLowerCase(), password);
 
          await handleLogIn(response);

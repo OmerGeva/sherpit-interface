@@ -5,6 +5,17 @@ export const MiddlemanOrderCardContainer = styled.div`
     height: 170px;
     border: 1px solid rgba(0,0,0,0.4);
     margin: 16px;
+    position: relative;
+    .info-icon{
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 24px;
+        cursor: pointer;
+        color: white;
+        border-radius: 50%;
+        background-color: black;
+    }
     .order-info{
         width: 100%;
         height: calc(65% - 16px);
@@ -53,8 +64,11 @@ export const MiddlemanOrderCardContainer = styled.div`
         align-items: center;
         justify-content: center;
         text-transform: uppercase;
-        cursor: pointer;
         background-color: rgba(40,40,40,0.2);
         color:  rgb(40,40,40);
+    }
+    .is-ordered{
+        cursor: pointer;
+        background-color: rgba(81,194,213,0.4);
     }
 `

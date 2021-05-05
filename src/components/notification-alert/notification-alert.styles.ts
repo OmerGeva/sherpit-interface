@@ -1,19 +1,23 @@
 import styled from "styled-components";
 
-export const NotificationAlertContainer = styled.div`
+interface NotificationAlertContainerProps {
+    active: boolean
+  } 
+
+export const NotificationAlertContainer = styled.div<NotificationAlertContainerProps>`
     z-index: 1000;
     min-width: 250px;
     height: 60px;
     position: fixed;
     top: 54px;
-    right: 54px;
+    right: ${props => props.active  ? '54px' : '-1000px'};
     box-shadow: 0 10px 50px 0 rgb(11 69 194 / 20%);
     background-color: white;
     border-radius: 12px;
     padding: 8px;
     display: flex;
     align-items: center;
-
+    transition: 0.4s;
     .left-bar{
         height: 100%;
         width: 4px;

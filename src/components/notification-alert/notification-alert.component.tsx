@@ -3,16 +3,20 @@ import { NotificationAlertContainer } from './notification-alert.styles';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-
-// External
-import { MdInfo } from 'react-icons/md';
-import { CgMathPlus } from 'react-icons/cg';
-
-import { IconContext } from "react-icons";
 import { setNotfication } from '../../redux/user/user.actions';
 
-const NotificationAlert = () => {
-    const notificationAlert = useSelector((state: any) => state.user.notification);
+// External
+import { CgMathPlus } from 'react-icons/cg';
+import { MdInfo } from 'react-icons/md';
+import { IconContext } from "react-icons";
+
+
+const NotificationAlert: React.FC = () => {
+    const notificationAlert: {
+        message: string,
+        type: string
+      } = useSelector((state: any) => state.user.notification);
+
     const dispatch = useDispatch();
 
     // setTimeout(() => {
@@ -21,8 +25,7 @@ const NotificationAlert = () => {
     //         )
     // }, 15000)
     return (
-        notificationAlert.message ?
-            <NotificationAlertContainer>
+            <NotificationAlertContainer active={notificationAlert.message.length !== 0}>
                 <div className="left-bar"></div>
                 <IconContext.Provider value={{ className: "notification-icon" }}>
                     <MdInfo />
@@ -39,8 +42,6 @@ const NotificationAlert = () => {
                     </IconContext.Provider>
                 </div>
             </NotificationAlertContainer>
-            :
-            <div></div>
     );
 };
 

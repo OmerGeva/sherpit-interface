@@ -82,3 +82,34 @@ export const acceptOrder = async (token: string, orderId: number, accept: boolea
 
     return response;
 }
+
+export const addOrderReciept = async (token: string, orderId: number, confirmationNumber: string, deliveryDate: Date, receiptImage: string | ArrayBuffer | null) => {
+    const apiUrl = baseURL.concat(`/orders/${orderId}/mark_as_ordered`);
+    const response = await axios.patch(
+        apiUrl,
+          {
+            confirmationNumber: confirmationNumber,
+            deliveryDate: deliveryDate,
+            receiptImage: receiptImage
+          },
+          {
+              headers: { Authorization: `Bearer ${token}` }
+          })
+
+    return response;
+}
+
+export const markOrderAsSent = async (token: string, orderId: number, deliveryDate: Date, receiptImage: string | ArrayBuffer | null) => {
+    const apiUrl = baseURL.concat(`/orders/${orderId}/mark_as_sent`);
+    const response = await axios.patch(
+        apiUrl,
+          {
+            deliveryDate: deliveryDate,
+            receiptImage: receiptImage
+          },
+          {
+              headers: { Authorization: `Bearer ${token}` }
+          })
+
+    return response;
+}

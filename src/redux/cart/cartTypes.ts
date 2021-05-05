@@ -1,3 +1,5 @@
+import { userType } from "../user/useTypes"
+
 export type cartItemType = {
     count: number
     product: productType,
@@ -42,5 +44,13 @@ export type orderType = {
   ship_until: null,
   shipping_id: null,
   shippings_id: null,
-  updated_at: string
+  updated_at: string,
+  order_confirmation: string
+  receipt_image?: 'string'
+}
+
+export type middlemanOrderType = {
+  order: orderType,
+  order_products: [cartItemType],
+
 }

@@ -44,32 +44,39 @@ function App() {
               ''
         }
         <Switch>
-          <Route exact path='/' render={(props) => currentUser ? currentUser.user_type === 'customer' ?
-                                                                    <StoresPage currentUser={currentUser} /> 
-                                                                  :
-                                                                    currentUser.user_type === 'middleman' ?
-                                                                      <MiddlemanHomepage currentUser={currentUser} /> 
-                                                                      :
-                                                                      <OrdersPage currentUser={currentUser} /> 
-                                                                : <SignInAndSignUp  />} />
-          <Route exact path='/store/:storeId' render={(props) => currentUser ? currentUser.user_type === 'customer' ?
-                                                                    <StorePage currentUser={currentUser} /> 
-                                                                  :
-                                                                    currentUser.user_type === 'middleman' ?
-                                                                      <MiddlemanHomepage currentUser={currentUser} /> 
-                                                                      :
-                                                                      <OrdersPage currentUser={currentUser} /> 
-                                                                : <SignInAndSignUp  />} />
-          <Route exact path='/checkout' render={(props) => currentUser ? <CheckoutPage currentUser={currentUser} /> : <SignInAndSignUp  />} />
-          <Route exact path='/orders' render={(props) => currentUser ? currentUser.user_type === 'customer' ?
-                                                                    <OrdersPage currentUser={currentUser} /> 
-                                                                  :
-                                                                    currentUser.user_type === 'middleman' ?
-                                                                      <MiddlemanHomepage currentUser={currentUser} /> 
-                                                                      :
-                                                                      <OrdersPage currentUser={currentUser} /> 
-                                                                : <SignInAndSignUp  />} />
-          <Route path='/' render={() => <FourOhFourPage />} />
+        <Route exact path='/' render={(props) => currentUser ? currentUser.user_type === 'customer' ?
+                                                                  <StoresPage currentUser={currentUser} /> 
+                                                                :
+                                                                  currentUser.user_type === 'middleman' ?
+                                                                    <MiddlemanHomepage currentUser={currentUser} openBackdrop={setCartOpen} /> 
+                                                                    :
+                                                                    <OrdersPage currentUser={currentUser} openBackdrop={setCartOpen} /> 
+                                                              : <SignInAndSignUp  />} />
+        <Route exact path='/store/:storeId' render={(props) => currentUser ? currentUser.user_type === 'customer' ?
+                                                                  <StorePage currentUser={currentUser} /> 
+                                                                :
+                                                                  currentUser.user_type === 'middleman' ?
+                                                                    <MiddlemanHomepage currentUser={currentUser} openBackdrop={setCartOpen} /> 
+                                                                    :
+                                                                    <OrdersPage currentUser={currentUser} openBackdrop={setCartOpen} /> 
+                                                              : <SignInAndSignUp  />} />
+
+        <Route exact path='/checkout' render={(props) => currentUser ? currentUser.user_type === 'customer' ?
+                                                                    <CheckoutPage currentUser={currentUser} />
+                                                                :
+                                                                  currentUser.user_type === 'middleman' ?
+                                                                    <MiddlemanHomepage currentUser={currentUser} openBackdrop={setCartOpen} /> 
+                                                                    :
+                                                                    <OrdersPage currentUser={currentUser} openBackdrop={setCartOpen} /> 
+                                                              : <SignInAndSignUp  />} />
+
+
+        <Route exact path='/orders' render={(props) => currentUser ? currentUser.user_type === 'middleman' ?
+                                                                    <MiddlemanHomepage currentUser={currentUser} openBackdrop={setCartOpen} /> 
+                                                                    :
+                                                                    <OrdersPage currentUser={currentUser} openBackdrop={setCartOpen}  /> 
+                                                              : <SignInAndSignUp  />} />
+        <Route path='/' render={() => <FourOhFourPage />} />
         </Switch>
         <NotificationAlert />
 
