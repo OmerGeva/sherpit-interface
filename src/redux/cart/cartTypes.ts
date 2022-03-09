@@ -31,26 +31,38 @@ export type storeType = {
 }
 
 export type orderType = {
-  arriving_to_middleman: null,
-  complete: boolean,
-  created_at: string,
-  customer_id: number,
-  delivered_to_middleman: boolean,
   id: number,
-  middleman_id: number | null,
   order_total: string,
+  pending?: boolean,
   ordered: boolean,
-  pending: boolean | null,
-  ship_until: null,
-  shipping_id: null,
-  shippings_id: null,
-  updated_at: string,
+  complete: boolean,
+  arriving_to_middleman: string,
+  delivered_to_middleman: boolean,
+  ordered_to_middleman: boolean,
   order_confirmation: string
-  receipt_image?: 'string'
+  sent_to_customer: boolean
+  arriving_to_customer: string
+  sent_receipt_image: string,
+  receipt_image: string,
+  created_at: string,
+  updated_at: string,
+  middleman: middlemanType,
+  order_products: [cartItemType],
+}
+
+export type middlemanType = {
+  name: string,
+  address: {
+    street: string,
+    city: string, 
+    zip: string,
+    state: string
+  }
 }
 
 export type middlemanOrderType = {
   order: orderType,
   order_products: [cartItemType],
-
+  sent_receipt_image: string,
+  receipt_image: string
 }

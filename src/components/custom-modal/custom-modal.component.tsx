@@ -10,7 +10,7 @@ import { months, ordinal } from "../../effects/date-utils";
 import { addOrderReciept, markOrderAsSent } from "../../api/axios";
 
 // Types
-import { middlemanOrderType } from '../../redux/cart/cartTypes';
+import { middlemanOrderType, orderType } from '../../redux/cart/cartTypes';
 import { userType } from '../../redux/user/useTypes';
 
 // External
@@ -24,12 +24,13 @@ interface CustomModalProps {
     typeOfModal: 'MIDDLEMAN-ORDER-INFO' | 'ORDER-ACTIONS' | 'VIEW-IMAGE' | 'MARK-AS-SENT',
     openBackdrop: React.Dispatch<React.SetStateAction<boolean>>,
     setCloseModal: React.Dispatch<React.SetStateAction<boolean>>,
-    selectedOrder?: middlemanOrderType | null,
+    modalClosed?: boolean,
+    selectedOrder?: orderType | null,
     orderId?: number,
     orderConfirmationInfo?: { orderId: number, image: string, confirmationNumber: string}
 }
 
-const CustomModal: React.FC <CustomModalProps> = ({typeOfModal, openBackdrop, setCloseModal, selectedOrder, orderId, orderConfirmationInfo}) => {
+const CustomModal: React.FC <CustomModalProps> = ({typeOfModal, openBackdrop, setCloseModal, modalClosed, selectedOrder, orderId, orderConfirmationInfo}) => {
     const dispatch = useDispatch();
     const ref = useRef<HTMLDivElement>(null);
     const [picture, setPicture] = useState('');
@@ -47,7 +48,7 @@ const CustomModal: React.FC <CustomModalProps> = ({typeOfModal, openBackdrop, se
                                 :
                                     await addOrderReciept(currentUser.token, orderId!, orderConfirmationNumber, orderDeliveryDate, imgData)
             
-         await setCloseModal(false);
+         await setCloseModal(!modalClosed);
          await openBackdrop(false);
         }catch(error){
           dispatch(
@@ -90,17 +91,17 @@ const CustomModal: React.FC <CustomModalProps> = ({typeOfModal, openBackdrop, se
                             Object.keys(UseArrangeStoresForCart(selectedOrder.order_products)).map((brand: any) =>
                             {
                                 const items = UseArrangeStoresForCart(selectedOrder.order_products)[brand][1];
-                                const estimatedDate = new Date(selectedOrder.order.updated_at);
+                                const estimatedDate = new Date(selectedOrder.updated_at);
                                 return(
                                     <div className="order-item-show" key={items[0].store.brand_image}>
                                         {
-                                            selectedOrder.order.arriving_to_middleman ?
+                                            selectedOrder.arriving_to_middleman ?
                                             <div>
                                                 <h3>
-                                                    Arrives - {`${months[new Date(selectedOrder.order.arriving_to_middleman!).getMonth()]} ${ordinal(new Date(selectedOrder.order.arriving_to_middleman!).getDate())}` }
+                                                    Arrives - {`${months[new Date(selectedOrder.arriving_to_middleman!).getMonth()]} ${ordinal(new Date(selectedOrder.arriving_to_middleman!).getDate())}` }
                                                 </h3>
                                                 <h3>
-                                                    Deliver By - {`${months[new Date(selectedOrder.order.arriving_to_middleman!).getMonth()]} ${ordinal(new Date(selectedOrder.order.arriving_to_middleman!).getDate()+2)}` }
+                                                    Deliver By - {`${months[new Date(selectedOrder.arriving_to_middleman!).getMonth()]} ${ordinal(new Date(selectedOrder.arriving_to_middleman!).getDate()+2)}` }
                                                 </h3>
                                             </div>
                                             :
@@ -110,7 +111,7 @@ const CustomModal: React.FC <CustomModalProps> = ({typeOfModal, openBackdrop, se
                                         }
                                         <div className="order-information">
                                             <img src={items[0].store.brand_image} alt={items[0].store.name}/>
-                                            <h3>${selectedOrder.order.order_total}</h3>
+                                            <h3>${selectedOrder.order_total}</h3>
                                         </div>
                                         <div className="items">
 

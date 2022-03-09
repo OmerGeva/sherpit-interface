@@ -32,11 +32,12 @@ interface MiddlemanOrderCardProps {
     isPending?: boolean,
     changedOrderStatus: boolean,
     seeMoreInfo: boolean,
-    order: middlemanOrderType,
+    orderSent: boolean,
+    order: orderType,
     setChangedOrderStatus: React.Dispatch<React.SetStateAction<boolean>>,
     setSeeMoreInfo: React.Dispatch<React.SetStateAction<boolean>>,
     openBackdrop: React.Dispatch<React.SetStateAction<boolean>>,
-    setSelectedOrder: React.Dispatch<React.SetStateAction<middlemanOrderType | null>>,
+    setSelectedOrder: React.Dispatch<React.SetStateAction<orderType | null>>,
     handleMarkOrderAsDelivered?: (orderId: number) => void
 }
 
@@ -50,11 +51,13 @@ const MiddlemanOrderCard: React.FC<MiddlemanOrderCardProps> = (
      setSeeMoreInfo,
      setSelectedOrder, 
      order,
+     orderSent,
      openBackdrop,
      handleMarkOrderAsDelivered}) => {
 
     const currentUser = useSelector((state: any) => state.user.currentUser);
     const [markAsDelivered, setMarkAsDelivered] = useState(false);
+
 
     const handleClick = async (accept: boolean) => {
         const response = await acceptOrder(currentUser.token, orderId, accept);
@@ -73,8 +76,8 @@ const MiddlemanOrderCard: React.FC<MiddlemanOrderCardProps> = (
                 <div className="more-info">
                     <p>{brand.brandName}</p>
                     {
-                        order.order.arriving_to_middleman ?
-                                <p>Deliver by: <strong>{`${months[new Date(order.order.arriving_to_middleman!).getMonth()]} ${ordinal(new Date(order.order.arriving_to_middleman!).getDate()+2)}` }</strong></p>
+                        order.arriving_to_middleman ?
+                                <p>Deliver by: <strong>{`${months[new Date(order.arriving_to_middleman!).getMonth()]} ${ordinal(new Date(order.arriving_to_middleman!).getDate()+2)}` }</strong></p>
                             :
                                 <p>Estimated Arrival:
                                     <br/>
@@ -89,10 +92,15 @@ const MiddlemanOrderCard: React.FC<MiddlemanOrderCardProps> = (
                         <div className="decline" onClick={() => handleClick(false)}>Decline</div>
                     </div>
                 :
-                    <div className={`mark-as-delivered ${order.order.arriving_to_middleman ? 'is-ordered' : ''}`} onClick={() => order.order.arriving_to_middleman ? handleMarkOrderAsDelivered!(order.order.id) : ''}>
+                    // orderSent ?
+                    // <div className="mark-as-delivered">
+                    //   Order Sent.
+                    // </div>
+                    // :
+                    <div className={`mark-as-delivered ${order.arriving_to_middleman ? 'is-ordered' : ''}`} onClick={() => order.arriving_to_middleman ? handleMarkOrderAsDelivered!(order.id) : ''}>
                         <div>
                             {
-                                order.order.arriving_to_middleman ?
+                                order.arriving_to_middleman ?
                                         'Mark as delivered'
                                     :
                                         'Waiting for confirmation'

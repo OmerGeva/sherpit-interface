@@ -16,10 +16,11 @@ import { VscPackage } from 'react-icons/vsc';
 import { FaRegPaperPlane } from 'react-icons/fa';
 import { BiReceipt } from 'react-icons/bi';
 import { IconContext } from "react-icons";
+import { orderType } from '../../redux/cart/cartTypes';
 
 
 interface OrderPreviewProps {
-    selectedOrder: selectedOrderType,
+    selectedOrder: orderType,
     openBackdrop: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -31,13 +32,13 @@ const OrderPreview: React.FC <OrderPreviewProps> = ({selectedOrder, openBackdrop
     useEffect(() => {
 
     }, [doUserAction])
-
+    console.log(selectedOrder);
     return (
         <OrderPreviewContainer>
             <div className="order-info-title">
-                <h2>Order #{selectedOrder.order.id}</h2>
-                <span className={selectedOrder.order.pending ? "pending dot" : "dot confirmed"}></span>
-                <p>{selectedOrder.order.pending ? 'Pending' : 'Confirmed'}</p>
+                <h2>Order #{selectedOrder.id}</h2>
+                <span className={selectedOrder.pending ? "pending dot" : "dot confirmed"}></span>
+                <p>{selectedOrder.pending ? 'Pending' : 'Confirmed'}</p>
             </div>
 
             {
@@ -83,7 +84,7 @@ const OrderPreview: React.FC <OrderPreviewProps> = ({selectedOrder, openBackdrop
                             <div className="order-item-show" key={items[0].store.brand_image}>
                                 <div className="order-information">
                                     <img src={items[0].store.brand_image} alt={items[0].store.name}/>
-                                    <h3>${selectedOrder.order.order_total}</h3>
+                                    <h3>${selectedOrder.order_total}</h3>
                                 </div>
                                 {
                                     items.map((item:any) => 
@@ -113,17 +114,19 @@ const OrderPreview: React.FC <OrderPreviewProps> = ({selectedOrder, openBackdrop
                { 
                 doUserAction &&
                 <CustomModal setCloseModal={setDoUserAction} 
-                            orderId={selectedOrder.order.id} 
+                            modalClosed={doUserAction}
+                            orderId={selectedOrder.id} 
                             typeOfModal={selectedOrder.receipt_image ? 'VIEW-IMAGE' : 'ORDER-ACTIONS'} 
-                            orderConfirmationInfo={{orderId: selectedOrder.order.id, image: selectedOrder.receipt_image, confirmationNumber: selectedOrder.order.order_confirmation}} 
+                            orderConfirmationInfo={{orderId: selectedOrder.id, image: selectedOrder.receipt_image, confirmationNumber: selectedOrder.order_confirmation}} 
                             openBackdrop={openBackdrop} />
                 }
                 { 
                 seeMiddlemanReceipt &&
                 <CustomModal setCloseModal={setSeeMiddlemanReceipt} 
-                            orderId={selectedOrder.order.id} 
+                            modalClosed={seeMiddlemanReceipt}
+                            orderId={selectedOrder.id} 
                             typeOfModal={'VIEW-IMAGE'} 
-                            orderConfirmationInfo={{orderId: selectedOrder.order.id, image: selectedOrder.sent_receipt_image, confirmationNumber: selectedOrder.order.order_confirmation}} 
+                            orderConfirmationInfo={{orderId: selectedOrder.id, image: selectedOrder.sent_receipt_image, confirmationNumber: selectedOrder.order_confirmation}} 
                             openBackdrop={openBackdrop} />
                 }
 

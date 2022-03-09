@@ -2,7 +2,6 @@ import { cartItemType } from "../redux/cart/cartTypes"
 
 export const UseArrangeStoresForCart = (cartItems: cartItemType[]) => {
     const organizedCartItems:any = {}
-
     cartItems.forEach((item: cartItemType) => {
         if(Object.keys(organizedCartItems).includes(item.store.name)){
             organizedCartItems[item.store.name][1].push(item)

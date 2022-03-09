@@ -7,7 +7,7 @@ interface ModalContainerProps {
 
 export const CustomModalContainer = styled.div<ModalContainerProps>`
     position: absolute;
-    top: ${props => props.typeOfModal === 'MIDDLEMAN-ORDER-INFO' ? '0' : '10vh'};
+    top: ${props => props.typeOfModal === 'MIDDLEMAN-ORDER-INFO' ? '0' : '8vh'};
     left: calc(50% - 20vw);
     width: calc(40vw + 120px);
     background-color: white;

@@ -18,12 +18,13 @@ const NotificationAlert: React.FC = () => {
       } = useSelector((state: any) => state.user.notification);
 
     const dispatch = useDispatch();
-
-    // setTimeout(() => {
-    //     dispatch(
-    //         setNotfication({message: '', type: 'info'})
-    //         )
-    // }, 15000)
+    if(notificationAlert.message.length !== 0){
+        setTimeout(() => {
+            dispatch(
+                setNotfication({message: '', type: 'info'})
+                )
+            }, 10000)
+        }
     return (
             <NotificationAlertContainer active={notificationAlert.message.length !== 0}>
                 <div className="left-bar"></div>

@@ -64,8 +64,7 @@ export const getOrders = async (token: string) => {
     const apiUrl = baseURL.concat('/orders');
 
     const response = await axios.get(apiUrl, { headers: { Authorization: `Bearer ${token}` }})
-
-    return response;
+    return response.data;
 }
 
 export const acceptOrder = async (token: string, orderId: number, accept: boolean) => {

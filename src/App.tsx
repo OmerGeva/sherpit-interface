@@ -19,19 +19,16 @@ import OrdersPage from "./pages/orders/orders.component";
 import AdminHomepage from "./pages/admin-homepage/admin-homepage.component";
 import MiddlemanHomepage from "./pages/middleman-homepage/middleman-homepage.component";
 
-
-
 // Components
 import Navbar from "./components/navbar/navbar.component";
 import CartSideBar from "./components/cart-side-bar/cart-side-bar.component";
 import NotificationAlert from './components/notification-alert/notification-alert.component';
 
 function App() {
-  
   const [cartOpen, setCartOpen] = useState(false);
   const currentUser: userType = useSelector((state:any) => state.user.currentUser)
-  const dispatch = useDispatch();
-  // dispatch(resetApp());
+  // const dispatch = useDispatch();
+  // dispatch(  resetApp());
   return (
     <div className="App">
       <AppContainer>

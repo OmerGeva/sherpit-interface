@@ -47,24 +47,28 @@ const CartSideBar: React.FC <CartSideBarProps> = ({setCartOpen, cartOpen}) => {
                     <h2>Personal Cart</h2>
                 </div>
                 {
-                    Object.keys(organizedCartItems).map((brand, index) => {
-                        const store = organizedCartItems[brand][1];
-                        return(
-                            <div className='cart-store-container' key={brand}>
-                                <div className="top-info">
-                                <img src={store[0].store.brand_image} alt={store[0].store.name}/>
-                                <h3>{store[0].store.name}</h3>
-                                <div className="flex-grower"></div>
-                                <p>${Math.round(organizedCartItems[brand][0] * 100) / 100}</p>
+                    cartItems.length > 0 ?
+                        Object.keys(organizedCartItems).map((brand, index) => {
+                            const store = organizedCartItems[brand][1];
+                            return(
+                                <div className='cart-store-container' key={brand}>
+                                    <div className="top-info">
+                                    <img src={store[0].store.brand_image} alt={store[0].store.name}/>
+                                    <h3>{store[0].store.name}</h3>
+                                    <div className="flex-grower"></div>
+                                    <p>${Math.round(organizedCartItems[brand][0] * 100) / 100}</p>
+                                    </div>
+                                {
+                                    store.map((cartItem:any) => 
+                                    <CartItem key={cartItem.product.id} cartItem={cartItem} orderId={cartInfo.id}/>
+                                    )
+                                }
                                 </div>
-                            {
-                                store.map((cartItem:any) => 
-                                <CartItem key={cartItem.product.id} cartItem={cartItem} orderId={cartInfo.id}/>
-                                )
-                            }
-                            </div>
-                        )
-                    })
+                            )
+                        })
+                    :
+                        <p>Your cart is empty 😢</p>
+                        
                 }
                 <Link to='/checkout'>
                     <div className="review-cart-button" onClick={() => setCartOpen(false)}>

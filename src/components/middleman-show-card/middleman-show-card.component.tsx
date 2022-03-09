@@ -13,13 +13,11 @@ import { setNotfication } from '../../redux/user/user.actions'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { FiClipboard } from 'react-icons/fi';
 import { IconContext } from "react-icons";
+import { middlemanType } from '../../redux/cart/cartTypes';
 
 
 interface MiddlemanShowCardProps {
-    middleman: {
-        info: userType,
-        address: userAddressType
-    }
+    middleman: middlemanType
 }
 const MiddlemanShowCard: React.FC <MiddlemanShowCardProps> = ({middleman}) => {
     const dispatch = useDispatch();
@@ -29,7 +27,7 @@ const MiddlemanShowCard: React.FC <MiddlemanShowCardProps> = ({middleman}) => {
             <div className="middleman-info">
                 <img src={signUpImage} alt="avatar" />
                 <div>
-                    <p>{middleman.info.first_name} {middleman.info.last_name}</p>
+                    <p>{middleman.name}</p>
                 </div>
             </div>
             <div className="address-container">

@@ -33,8 +33,8 @@ const OrdersPage: React.FC <OrderPageProps> = ({currentUser, openBackdrop}) => {
     const fetchOrders = async () => {
         try{
             const response = await getOrders(currentUser.token);
-            console.log(response)
-            await setOrders(response.data.orders);
+            console.log(response);
+            await setOrders(response.data);
         }catch(error) {
             console.log(error);
         }
@@ -48,7 +48,6 @@ const OrdersPage: React.FC <OrderPageProps> = ({currentUser, openBackdrop}) => {
         })
         return itemCount;
     }
-    console.log(selectedOrder);
     useEffect(() => {
         fetchOrders();
     }, [currentUser])
@@ -68,11 +67,11 @@ const OrdersPage: React.FC <OrderPageProps> = ({currentUser, openBackdrop}) => {
                     <tbody>
                         {
                             orders.map((order:any) => 
-                                <tr onClick={(() => setSelectedOrder(order))} key={order.order.id} className={selectedOrder === order ? 'selected-row' : ''}>
-                                    <td>{order.order.id}</td>
+                                <tr onClick={(() => setSelectedOrder(order))} key={order.id} className={selectedOrder === order ? 'selected-row' : ''}>
+                                    <td>{order.id}</td>
                                     <td>{sumUpItemOut(order.order_products)}</td>
-                                    <td>$ {order.order.order_total}</td>
-                                    <td className='pending-row'><div className={order.order.pending ? "pending dot" : "dot confirmed"}></div>{order.order.pending ? 'pending' : 'confirmed'}</td>
+                                    <td>$ {order.order_total}</td>
+                                    <td className='pending-row'><div className={order.pending ? "pending dot" : "dot confirmed"}></div>{order.pending ? 'pending' : 'confirmed'}</td>
                                 </tr>
     
                                 )
@@ -82,7 +81,7 @@ const OrdersPage: React.FC <OrderPageProps> = ({currentUser, openBackdrop}) => {
 
             </div>
             {
-                 selectedOrder.order &&
+                 selectedOrder.id &&
                     <div className="chosen-order">
                         <OrderPreview selectedOrder={selectedOrder} openBackdrop={openBackdrop}/>
                     </div>
